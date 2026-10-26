@@ -1,0 +1,694 @@
+/* ==========================================================================
+   Merry Christmas — a cozy Christmas theme for Obsidian
+   Pine forest by night, cranberry and gold; a Christmas-letter cream by day.
+
+   Author: Mack Chirinos · MIT License
+   Inspired by the typography and note layout of Nox Aeterna (white0dry, MIT).
+
+   Fonts (embedded):
+     EB Garamond — The EB Garamond Project Authors (SIL OFL 1.1)
+     Cinzel, Cinzel Decorative — Natanael Gama (SIL OFL 1.1)
+     Mountains of Christmas — Tart Workshop (Apache License 2.0)
+   Ornaments (reindeer, holly, star, snowflake, bell) drawn for this theme.
+
+   Built by build.mjs from src/theme.src.css — edit the source, not theme.css.
+   ========================================================================== */
+
+/* @settings
+
+name: Merry Christmas
+id: merry-christmas
+settings:
+-   id: mc-h-atmosphere
+    title: Atmosphere
+    type: heading
+    level: 2
+    collapsed: false
+-   id: mc-no-snow
+    title: Disable falling snow
+    description: Snow is also hidden when your system asks to reduce motion.
+    type: class-toggle
+-   id: mc-snow-opacity
+    title: Snow intensity
+    type: variable-number-slider
+    default: 0.6
+    min: 0.1
+    max: 1
+    step: 0.05
+-   id: mc-h-ornaments
+    title: Ornaments
+    type: heading
+    level: 2
+    collapsed: false
+-   id: mc-folder-style
+    title: Folder toggle in the file explorer
+    type: class-select
+    allowEmpty: false
+    default: mc-folder-gift
+    options:
+    -   label: Gift 🎁
+        value: mc-folder-gift
+    -   label: Reindeer (resting when closed, standing when open)
+        value: mc-folder-reno
+    -   label: Native arrow
+        value: mc-folder-native
+-   id: mc-emblem
+    title: Emblem under the note title
+    type: class-select
+    allowEmpty: false
+    default: mc-emblem-reno
+    options:
+    -   label: Reindeer
+        value: mc-emblem-reno
+    -   label: Holly
+        value: mc-emblem-acebo
+    -   label: None
+        value: mc-emblem-none
+-   id: mc-heading-emoji
+    title: Festive emojis on headings
+    description: 🎄 above H1, ⭐ before H2 and 🎁 before H3.
+    type: class-toggle
+-   id: mc-no-ornaments
+    title: Disable heading and divider ornaments
+    type: class-toggle
+-   id: mc-h-typography
+    title: Typography
+    type: heading
+    level: 2
+    collapsed: false
+-   id: mc-title-festive
+    title: Playful Christmas font for titles
+    description: Uses Mountains of Christmas for the note title and H1 instead of Cinzel Decorative.
+    type: class-toggle
+-   id: mc-h-colors
+    title: Colors
+    type: heading
+    level: 2
+    collapsed: true
+-   id: mc-info-accent
+    type: info-text
+    markdown: true
+    text: The accent color (buttons, links, selection) follows **Settings → Appearance → Accent color**. These pickers recolor the lines, lozenges, tasks and folder reindeer; the title emblem and the stars keep the theme palette.
+-   id: mc-gold
+    title: Gold
+    type: variable-themed-color
+    format: hex
+    opacity: false
+    default-light: '#846020'
+    default-dark: '#D9B46C'
+-   id: mc-berry
+    title: Cranberry
+    type: variable-themed-color
+    format: hex
+    opacity: false
+    default-light: '#A3233A'
+    default-dark: '#C0394B'
+-   id: mc-holly
+    title: Holly green
+    type: variable-themed-color
+    format: hex
+    opacity: false
+    default-light: '#2F6146'
+    default-dark: '#6FA57E'
+
+*/
+
+/* @@FONTS@@ */
+
+/* ==========================================================================
+   1. Palette & Obsidian variables
+   ========================================================================== */
+.theme-dark {
+  --mc-canvas: #0E1814;
+  --mc-paper: #14211B;
+  --mc-line: #26372E;
+  --mc-text: #EFE6D3;
+  --mc-muted: #A99F8A;
+  --mc-faint: #7F7966;
+  --mc-berry: #C0394B;
+  --mc-link: #E07A6A;
+  --mc-gold: #D9B46C;
+  --mc-holly: #6FA57E;
+  --mc-snow: #F5F1E8;
+  --mc-code-bg: #0F1A15;
+  --accent-h: 352;
+  --accent-s: 54%;
+  --accent-l: 49%;
+  --mc-emblem-reno: @@SVG:reno-emblema-nariz:#C0394B@@, @@SVG:reno-emblema:#D9B46C@@;
+  --mc-emblem-acebo: @@SVG:acebo-bayas:#C0394B@@, @@SVG:acebo:#6FA57E@@;
+  --mc-star: @@SVG:estrella:#D9B46C@@;
+  --color-base-00: #14211B;
+  --color-base-05: #111D18;
+  --color-base-10: #172720;
+  --color-base-20: #0E1814;
+  --color-base-25: #1B2B24;
+  --color-base-30: #26372E;
+  --color-base-35: #2E4137;
+  --color-base-40: #3A4E43;
+  --color-base-50: #5C6A5F;
+  --color-base-60: #7F7966;
+  --color-base-70: #A99F8A;
+  --color-base-100: #EFE6D3;
+}
+
+.theme-light {
+  --mc-canvas: #EFE6D4;
+  --mc-paper: #FBF6EC;
+  --mc-line: #DCCFB6;
+  --mc-text: #2B211C;
+  --mc-muted: #6B5D50;
+  --mc-faint: #8A7C6C;
+  --mc-berry: #A3233A;
+  --mc-link: #A3233A;
+  --mc-gold: #846020;
+  --mc-holly: #2F6146;
+  --mc-snow: #9FB3C4;
+  --mc-code-bg: #F3EBDC;
+  --accent-h: 349;
+  --accent-s: 65%;
+  --accent-l: 39%;
+  --mc-emblem-reno: @@SVG:reno-emblema-nariz:#A3233A@@, @@SVG:reno-emblema:#846020@@;
+  --mc-emblem-acebo: @@SVG:acebo-bayas:#A3233A@@, @@SVG:acebo:#2F6146@@;
+  --mc-star: @@SVG:estrella:#846020@@;
+  --color-base-00: #FBF6EC;
+  --color-base-05: #F7F0E3;
+  --color-base-10: #F4ECDD;
+  --color-base-20: #EFE6D4;
+  --color-base-25: #E6DBC6;
+  --color-base-30: #DCCFB6;
+  --color-base-35: #CFC0A4;
+  --color-base-40: #BBA98A;
+  --color-base-50: #9A8A74;
+  --color-base-60: #8A7C6C;
+  --color-base-70: #6B5D50;
+  --color-base-100: #2B211C;
+}
+
+.theme-dark,
+.theme-light {
+  --color-red: var(--mc-berry);
+  --color-green: var(--mc-holly);
+  --color-yellow: var(--mc-gold);
+  --background-primary: var(--mc-paper);
+  --background-primary-alt: color-mix(in srgb, var(--mc-paper) 85%, var(--mc-canvas));
+  --background-secondary: var(--mc-canvas);
+  --background-secondary-alt: color-mix(in srgb, var(--mc-canvas) 70%, var(--mc-line));
+  --background-modifier-border: var(--mc-line);
+  --background-modifier-border-hover: color-mix(in srgb, var(--mc-gold) 35%, var(--mc-line));
+  --background-modifier-border-focus: color-mix(in srgb, var(--mc-gold) 60%, transparent);
+  --background-modifier-hover: color-mix(in srgb, var(--mc-gold) 9%, transparent);
+  --background-modifier-active-hover: color-mix(in srgb, var(--mc-gold) 14%, transparent);
+  --divider-color: var(--mc-line);
+  --titlebar-background: var(--mc-canvas);
+  --titlebar-background-focused: var(--mc-canvas);
+  --ribbon-background: var(--mc-canvas);
+  --tab-container-background: var(--mc-canvas);
+  --text-normal: var(--mc-text);
+  --text-muted: var(--mc-muted);
+  --text-faint: var(--mc-faint);
+  --text-selection: color-mix(in srgb, var(--mc-berry) 30%, transparent);
+  --text-highlight-bg: color-mix(in srgb, var(--mc-gold) 32%, transparent);
+  --caret-color: var(--mc-gold);
+  --link-color: var(--mc-link);
+  --link-color-hover: var(--mc-gold);
+  --link-external-color: var(--mc-link);
+  --link-external-color-hover: var(--mc-gold);
+  --link-unresolved-color: var(--mc-muted);
+  --link-unresolved-decoration-color: color-mix(in srgb, var(--mc-link) 40%, transparent);
+  --h1-color: var(--mc-gold);
+  --h2-color: var(--mc-gold);
+  --h3-color: var(--mc-link);
+  --h4-color: var(--mc-holly);
+  --h5-color: var(--mc-muted);
+  --h6-color: var(--mc-faint);
+  --inline-title-color: var(--mc-gold);
+  --tag-color: var(--mc-gold);
+  --tag-color-hover: var(--mc-text);
+  --tag-background: color-mix(in srgb, var(--mc-gold) 12%, transparent);
+  --tag-background-hover: color-mix(in srgb, var(--mc-gold) 22%, transparent);
+  --tag-border-color: color-mix(in srgb, var(--mc-gold) 35%, transparent);
+  --tag-border-width: 1px;
+  --hr-color: color-mix(in srgb, var(--mc-gold) 55%, transparent);
+  --list-marker-color: var(--mc-gold);
+  --list-marker-color-hover: var(--mc-link);
+  --list-marker-color-collapsed: var(--mc-berry);
+  --list-bullet-radius: 0;
+  --list-bullet-size: 0.32em;
+  --list-bullet-transform: rotate(45deg);
+  --checkbox-radius: 2px;
+  --checkbox-color: var(--mc-gold);
+  --checkbox-color-hover: var(--mc-gold);
+  --checkbox-border-color: color-mix(in srgb, var(--mc-gold) 75%, transparent);
+  --checkbox-border-color-hover: var(--mc-gold);
+  --checkbox-marker-color: var(--mc-paper);
+  --checklist-done-color: var(--mc-faint);
+  --blockquote-border-color: var(--mc-gold);
+  --blockquote-border-thickness: 2px;
+  --blockquote-background-color: color-mix(in srgb, var(--mc-gold) 6%, transparent);
+  --blockquote-font-style: italic;
+  --callout-radius: 3px;
+  --callout-border-width: 1px;
+  --callout-border-opacity: 0.3;
+  --table-header-background: color-mix(in srgb, var(--mc-gold) 10%, transparent);
+  --table-header-background-hover: color-mix(in srgb, var(--mc-gold) 16%, transparent);
+  --table-border-color: color-mix(in srgb, var(--mc-gold) 28%, var(--mc-line));
+  --table-row-alt-background: color-mix(in srgb, var(--mc-gold) 3%, transparent);
+  --code-background: var(--mc-code-bg);
+  --code-normal: var(--mc-text);
+  --code-comment: var(--mc-faint);
+  --code-function: var(--mc-gold);
+  --code-keyword: var(--mc-link);
+  --code-important: var(--mc-berry);
+  --code-operator: var(--mc-muted);
+  --code-property: var(--mc-holly);
+  --code-punctuation: var(--mc-muted);
+  --code-string: var(--mc-holly);
+  --code-tag: var(--mc-link);
+  --code-value: var(--mc-gold);
+  --nav-item-color-active: var(--mc-text);
+  --nav-item-background-active: color-mix(in srgb, var(--mc-berry) 16%, transparent);
+  --nav-item-color-selected: var(--mc-text);
+  --nav-item-background-selected: color-mix(in srgb, var(--mc-gold) 14%, transparent);
+  --nav-collapse-icon-color: var(--mc-gold);
+  --nav-collapse-icon-color-collapsed: var(--mc-muted);
+  --nav-indentation-guide-color: color-mix(in srgb, var(--mc-gold) 18%, transparent);
+  --indentation-guide-color: color-mix(in srgb, var(--mc-gold) 15%, transparent);
+  --indentation-guide-color-active: color-mix(in srgb, var(--mc-gold) 38%, transparent);
+  --mc-snow-opacity: 0.6;
+}
+
+/* ==========================================================================
+   2. Typography
+   ========================================================================== */
+body {
+  --mc-font-text: "MC Garamond", "EB Garamond", "Garamond", "Georgia", serif;
+  --mc-font-display: "MC Cinzel", "Cinzel", "Trajan Pro", serif;
+  --mc-font-title: "MC Cinzel Decorative", "Cinzel Decorative", var(--mc-font-display);
+  --font-text-theme: var(--mc-font-text);
+  --font-interface-theme: var(--mc-font-text);
+  --font-monospace-theme: "JetBrains Mono", "Cascadia Code", "Consolas", "Menlo", monospace;
+  --inline-title-font: var(--mc-font-title);
+  --h1-font: var(--mc-font-title);
+  --h2-font: var(--mc-font-display);
+  --h3-font: var(--mc-font-display);
+  --h4-font: var(--mc-font-display);
+  --h5-font: var(--mc-font-display);
+  --h6-font: var(--mc-font-display);
+  --inline-title-weight: 700;
+  --h1-weight: 700;
+  --h2-weight: 700;
+
+  font-variant-numeric: lining-nums;
+  font-kerning: normal;
+}
+
+body.mc-title-festive {
+  --mc-font-title: "MC Mountains of Christmas", "Mountains of Christmas", var(--mc-font-display);
+}
+
+.markdown-rendered,
+.markdown-source-view.mod-cm6 .cm-scroller {
+  letter-spacing: 0.012em;
+}
+
+.markdown-rendered mark,
+.markdown-source-view .cm-highlight {
+  color: var(--text-normal);
+  padding: 0 0.12em;
+  border-radius: 1px;
+}
+
+.markdown-rendered del,
+.markdown-source-view .cm-strikethrough {
+  text-decoration-color: color-mix(in srgb, var(--mc-berry) 80%, transparent);
+}
+
+.markdown-rendered a,
+.markdown-source-view .cm-hmd-internal-link .cm-underline,
+.markdown-source-view .cm-link .cm-underline,
+.markdown-source-view .cm-url .cm-underline {
+  text-decoration-color: color-mix(in srgb, currentcolor 40%, transparent);
+  text-underline-offset: 0.22em;
+}
+
+.view-header-title,
+.workspace-tab-header-inner-title,
+.callout-title-inner,
+.markdown-rendered th {
+  font-family: var(--mc-font-display);
+  letter-spacing: 0.04em;
+}
+
+/* ==========================================================================
+   3. Note title & headings
+   ========================================================================== */
+.inline-title {
+  letter-spacing: 0.06em;
+  text-align: center;
+}
+
+.theme-dark .inline-title {
+  text-shadow: 0 0 26px color-mix(in srgb, var(--mc-gold) 25%, transparent);
+}
+
+/* emblem under the title: reindeer (default) or holly — two layers, the nose/berries on top */
+body:not(.mc-emblem-none) .inline-title {
+  padding-bottom: 4rem;
+  background-image: var(--mc-emblem-reno);
+  background-position: center bottom 0.4rem;
+  background-size: auto 3.2rem;
+  background-repeat: no-repeat;
+}
+
+body.mc-emblem-acebo .inline-title {
+  background-image: var(--mc-emblem-acebo);
+  background-size: auto 2.2rem;
+}
+
+/* H1 — centred, with a gold rule broken by a small star (same in reading view and live preview;
+   CodeMirror lines get no pseudo-elements, they misplace the caret) */
+.markdown-rendered h1,
+.markdown-source-view.mod-cm6 .cm-line.HyperMD-header-1 {
+  text-align: center;
+  letter-spacing: 0.04em;
+}
+
+body:not(.mc-no-ornaments) .markdown-rendered h1,
+body:not(.mc-no-ornaments) .markdown-source-view.mod-cm6 .cm-line.HyperMD-header-1 {
+  padding-bottom: 0.7em;
+  background-image:
+    var(--mc-star),
+    linear-gradient(90deg, transparent 8%, var(--hr-color) 30%, var(--hr-color) calc(50% - 1em), transparent calc(50% - 1em), transparent calc(50% + 1em), var(--hr-color) calc(50% + 1em), var(--hr-color) 70%, transparent 92%);
+  background-position: center bottom, center bottom 0.24em;
+  background-size: auto 0.5em, 100% 1px;
+  background-repeat: no-repeat;
+}
+
+/* H2 — a gold rule fading to the right */
+body:not(.mc-no-ornaments) .markdown-rendered h2,
+body:not(.mc-no-ornaments) .markdown-source-view.mod-cm6 .cm-line.HyperMD-header-2 {
+  padding-bottom: 0.2em;
+  background-image: linear-gradient(90deg, color-mix(in srgb, var(--mc-gold) 70%, transparent), color-mix(in srgb, var(--mc-gold) 15%, transparent) 45%, transparent 88%);
+  background-position: left bottom;
+  background-size: 100% 1px;
+  background-repeat: no-repeat;
+}
+
+/* H3 — a small cranberry lozenge (reading view only; live preview keeps the line clean) */
+body:not(.mc-no-ornaments, .mc-heading-emoji) .markdown-rendered h3::before {
+  content: "";
+  display: inline-block;
+  width: 0.3em;
+  height: 0.3em;
+  margin-inline-end: 0.55em;
+  vertical-align: 0.2em;
+  background: var(--mc-berry);
+  transform: rotate(45deg);
+}
+
+.markdown-rendered h4,
+.HyperMD-header-4 {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.markdown-source-view.mod-cm6 .cm-formatting-header {
+  color: color-mix(in srgb, var(--mc-berry) 70%, transparent);
+}
+
+/* ==========================================================================
+   4. Dividers, quotes, callouts, tables, tasks
+   ========================================================================== */
+body:not(.mc-no-ornaments) .markdown-rendered hr,
+body:not(.mc-no-ornaments) .markdown-source-view.mod-cm6 hr {
+  height: 22px;
+  border: none;
+  background-image:
+    var(--mc-star),
+    linear-gradient(90deg, transparent 4%, var(--hr-color) 30%, var(--hr-color) calc(50% - 22px), transparent calc(50% - 22px), transparent calc(50% + 22px), var(--hr-color) calc(50% + 22px), var(--hr-color) 70%, transparent 96%);
+  background-position: center;
+  background-size: 18px 18px, 100% 1px;
+  background-repeat: no-repeat;
+}
+
+.markdown-rendered blockquote {
+  padding: 0.4em 1em 0.4em 1.2em;
+  border-radius: 0 2px 2px 0;
+}
+
+.callout {
+  border-inline-start-width: 3px;
+}
+
+.markdown-rendered th {
+  color: var(--mc-gold);
+  font-size: 0.92em;
+}
+
+/* checked task: a star instead of the tick */
+:is(.markdown-rendered, .markdown-source-view.mod-cm6) input.task-list-item-checkbox:checked::after {
+  mask-image: @@SVG:estrella@@;
+  mask-size: 80%;
+  mask-position: center;
+  mask-repeat: no-repeat;
+}
+
+/* ==========================================================================
+   5. File explorer — 🎁 instead of the folder arrow
+   ========================================================================== */
+.nav-file-title.is-active {
+  box-shadow: inset 2px 0 0 var(--mc-berry);
+}
+
+body:not(.mc-folder-native) .nav-folder-title > .collapse-icon {
+  position: relative;
+  width: 20px;
+  margin-inline-end: 4px;
+  opacity: 1;
+}
+
+body:not(.mc-folder-native) .nav-folder-title > .collapse-icon > .svg-icon {
+  display: none;
+}
+
+body:not(.mc-folder-native, .mc-folder-reno) .nav-folder-title > .collapse-icon::after {
+  content: "\1F381";
+  font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+  font-size: 15px;
+  line-height: 1;
+  transition: transform 0.15s ease, filter 0.15s ease, opacity 0.15s ease;
+}
+
+body:not(.mc-folder-native, .mc-folder-reno) .nav-folder-title > .collapse-icon.is-collapsed::after {
+  opacity: 0.7;
+  filter: saturate(0.6);
+}
+
+body:not(.mc-folder-native, .mc-folder-reno) .nav-folder-title > .collapse-icon:not(.is-collapsed)::after {
+  transform: scale(1.12);
+  filter: drop-shadow(0 0 3px color-mix(in srgb, var(--mc-gold) 70%, transparent));
+}
+
+/* reindeer: resting when closed, standing with a lit nose when open */
+body.mc-folder-reno .nav-folder-title > .collapse-icon::after,
+body.mc-folder-reno .nav-folder-title > .collapse-icon:not(.is-collapsed)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 16px;
+  height: 16px;
+  margin: auto;
+  mask-position: center;
+  mask-size: contain;
+  mask-repeat: no-repeat;
+}
+
+body.mc-folder-reno .nav-folder-title > .collapse-icon::after {
+  background-color: var(--mc-gold);
+  mask-image: @@SVG:reno-pie@@;
+}
+
+body.mc-folder-reno .nav-folder-title > .collapse-icon.is-collapsed::after {
+  background-color: var(--mc-muted);
+  mask-image: @@SVG:reno-echado@@;
+}
+
+body.mc-folder-reno .nav-folder-title > .collapse-icon:not(.is-collapsed)::before {
+  z-index: 1;
+  background-color: var(--mc-berry);
+  mask-image: @@SVG:reno-pie-nariz@@;
+}
+
+/* on the icon itself: the ::after already has its own filter, and the reindeer has two layers */
+body:not(.mc-folder-native) .nav-folder-title:hover > .collapse-icon {
+  filter: brightness(1.2);
+}
+
+/* ==========================================================================
+   6. Tabs, panes & new tab
+   ========================================================================== */
+.workspace-tab-header.is-active .workspace-tab-header-inner-title {
+  color: var(--mc-gold);
+}
+
+.mod-root .workspace-tab-header.is-active .workspace-tab-header-inner {
+  box-shadow: inset 0 2px 0 var(--mc-berry);
+}
+
+.workspace-leaf-content[data-type="empty"] .empty-state-container::before {
+  content: "Merry Christmas";
+  display: block;
+  padding-top: 7.5rem;
+  margin-bottom: 0.4em;
+  background-image: var(--mc-emblem-reno);
+  background-position: center top;
+  background-size: auto 6.5rem;
+  background-repeat: no-repeat;
+  font-family: var(--mc-font-title);
+  font-size: 2.4em;
+  line-height: 1.2;
+  color: var(--mc-gold);
+}
+
+.workspace-leaf-content[data-type="empty"] .empty-state-title {
+  font-family: var(--mc-font-display);
+  letter-spacing: 0.08em;
+}
+
+/* ==========================================================================
+   7. Falling snow — two layers drifting down at different speeds.
+   Only transform is animated (no repaint per frame); never catches clicks.
+   ========================================================================== */
+.workspace-leaf-content[data-type="markdown"] .view-content {
+  position: relative;
+  overflow: hidden;
+}
+
+body:not(.mc-no-snow) .workspace-leaf-content[data-type="markdown"] .view-content::before,
+body:not(.mc-no-snow) .workspace-leaf-content[data-type="markdown"] .view-content::after {
+  --mc-flake: color-mix(in srgb, var(--mc-snow) calc(var(--mc-snow-opacity) * 100%), transparent);
+
+  content: "";
+  position: absolute;
+  inset: calc(-1 * var(--mc-tile)) 0 0;
+  z-index: 1;
+  pointer-events: none;
+  background-size: var(--mc-tile) var(--mc-tile);
+  animation: mc-snowfall var(--mc-fall) linear infinite;
+  will-change: transform;
+}
+
+body:not(.mc-no-snow) .workspace-leaf-content[data-type="markdown"] .view-content::before {
+  --mc-tile: 220px;
+  --mc-fall: 22s;
+
+  background-image:
+    radial-gradient(circle at 20px 30px, var(--mc-flake) 0 1.4px, transparent 2px),
+    radial-gradient(circle at 92px 112px, var(--mc-flake) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 160px 48px, var(--mc-flake) 0 1.4px, transparent 2px),
+    radial-gradient(circle at 202px 178px, var(--mc-flake) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 58px 190px, var(--mc-flake) 0 1.2px, transparent 1.8px),
+    radial-gradient(circle at 132px 160px, var(--mc-flake) 0 0.8px, transparent 1.4px);
+}
+
+body:not(.mc-no-snow) .workspace-leaf-content[data-type="markdown"] .view-content::after {
+  --mc-tile: 340px;
+  --mc-fall: 15s;
+
+  background-image:
+    radial-gradient(circle at 50px 80px, var(--mc-flake) 0 2px, transparent 2.8px),
+    radial-gradient(circle at 250px 40px, var(--mc-flake) 0 2.4px, transparent 3.2px),
+    radial-gradient(circle at 170px 230px, var(--mc-flake) 0 1.8px, transparent 2.6px),
+    radial-gradient(circle at 300px 300px, var(--mc-flake) 0 2.2px, transparent 3px);
+}
+
+@keyframes mc-snowfall {
+  to {
+    transform: translateY(var(--mc-tile));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body:not(.mc-no-snow) .workspace-leaf-content[data-type="markdown"] .view-content::before,
+  body:not(.mc-no-snow) .workspace-leaf-content[data-type="markdown"] .view-content::after {
+    content: none;
+  }
+}
+
+/* ==========================================================================
+   8. Festive emojis on headings (Style Settings, off by default).
+   Drawn as backgrounds so live preview lines keep a correct caret.
+   ========================================================================== */
+body.mc-heading-emoji .markdown-rendered h1,
+body.mc-heading-emoji .markdown-source-view.mod-cm6 .cm-line.HyperMD-header-1 {
+  padding-top: 1.3em;
+  background-image: @@EMOJI:🎄@@;
+  background-position: center top;
+  background-size: 1.1em 1.1em;
+  background-repeat: no-repeat;
+}
+
+body.mc-heading-emoji:not(.mc-no-ornaments) .markdown-rendered h1,
+body.mc-heading-emoji:not(.mc-no-ornaments) .markdown-source-view.mod-cm6 .cm-line.HyperMD-header-1 {
+  background-image:
+    @@EMOJI:🎄@@,
+    var(--mc-star),
+    linear-gradient(90deg, transparent 8%, var(--hr-color) 30%, var(--hr-color) calc(50% - 1em), transparent calc(50% - 1em), transparent calc(50% + 1em), var(--hr-color) calc(50% + 1em), var(--hr-color) 70%, transparent 92%);
+  background-position: center top, center bottom, center bottom 0.24em;
+  background-size: 1.1em 1.1em, auto 0.5em, 100% 1px;
+}
+
+body.mc-heading-emoji .markdown-rendered :is(h2, h3),
+body.mc-heading-emoji .markdown-source-view.mod-cm6 .cm-line:is(.HyperMD-header-2, .HyperMD-header-3) {
+  padding-inline-start: 1.4em;
+  background-position: left 0 center;
+  background-size: 1em 1em;
+  background-repeat: no-repeat;
+}
+
+/* keep the reading-view fold arrow left of the emoji instead of on top of it */
+body.mc-heading-emoji .markdown-rendered :is(h2, h3) .heading-collapse-indicator {
+  margin-inline-start: calc(-22px - 1.4em);
+}
+
+body.mc-heading-emoji .markdown-rendered h2,
+body.mc-heading-emoji .markdown-source-view.mod-cm6 .cm-line.HyperMD-header-2 {
+  background-image: @@EMOJI:⭐@@;
+}
+
+body.mc-heading-emoji .markdown-rendered h3,
+body.mc-heading-emoji .markdown-source-view.mod-cm6 .cm-line.HyperMD-header-3 {
+  background-image: @@EMOJI:🎁@@;
+}
+
+body.mc-heading-emoji:not(.mc-no-ornaments) .markdown-rendered h2,
+body.mc-heading-emoji:not(.mc-no-ornaments) .markdown-source-view.mod-cm6 .cm-line.HyperMD-header-2 {
+  background-image:
+    @@EMOJI:⭐@@,
+    linear-gradient(90deg, color-mix(in srgb, var(--mc-gold) 70%, transparent), color-mix(in srgb, var(--mc-gold) 15%, transparent) 45%, transparent 88%);
+  background-position: left 0 center, left bottom;
+  background-size: 1em 1em, 100% 1px;
+}
+
+/* ==========================================================================
+   9. Print — plain ink on paper
+   ========================================================================== */
+@media print {
+  body .inline-title,
+  body .markdown-rendered :is(h1, h2, h3, hr) {
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-inline-start: 0;
+    background: none;
+    text-shadow: none;
+  }
+
+  body .markdown-rendered hr {
+    height: auto;
+    border-top: 1px solid var(--hr-color);
+  }
+
+  body .markdown-rendered h3::before {
+    display: none;
+  }
+}

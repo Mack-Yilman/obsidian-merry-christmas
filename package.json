@@ -1,0 +1,17 @@
+{
+  "name": "obsidian-merry-christmas",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A cozy Christmas theme for Obsidian.",
+  "author": "Mack Chirinos",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "lint": "stylelint theme.css"
+  },
+  "devDependencies": {
+    "stylelint": "^17.16.0",
+    "stylelint-config-obsidianmd": "^0.1.0"
+  }
+}

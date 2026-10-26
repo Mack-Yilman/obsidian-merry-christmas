@@ -1,0 +1,12 @@
+{
+  "eb-garamond-latin-400-normal.woff2": { "family": "MC Garamond", "weight": 400 },
+  "eb-garamond-latin-400-italic.woff2": { "family": "MC Garamond", "weight": 400, "style": "italic" },
+  "eb-garamond-latin-700-normal.woff2": { "family": "MC Garamond", "weight": 700 },
+  "eb-garamond-latin-700-italic.woff2": { "family": "MC Garamond", "weight": 700, "style": "italic" },
+  "cinzel-latin-400-normal.woff2": { "family": "MC Cinzel", "weight": 400 },
+  "cinzel-latin-700-normal.woff2": { "family": "MC Cinzel", "weight": 700 },
+  "cinzel-decorative-latin-400-normal.woff2": { "family": "MC Cinzel Decorative", "weight": 400 },
+  "cinzel-decorative-latin-700-normal.woff2": { "family": "MC Cinzel Decorative", "weight": 700 },
+  "mountains-of-christmas-latin-400-normal.woff2": { "family": "MC Mountains of Christmas", "weight": 400 },
+  "mountains-of-christmas-latin-700-normal.woff2": { "family": "MC Mountains of Christmas", "weight": 700 }
+}
