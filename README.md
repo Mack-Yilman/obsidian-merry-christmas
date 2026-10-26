@@ -19,6 +19,7 @@ note title, gifts instead of folder arrows and gently falling snow.
 - **File explorer** — a 🎁 replaces the folder arrow (dimmed when closed, glowing when open), or a reindeer that
   stands up when the folder opens.
 - **Falling snow** over your notes; it never catches clicks and hides itself when your system asks to reduce motion.
+- **Golden frames** — a double gold line with star corners around the sidebar panels and dialogs.
 - **New tab** with the reindeer emblem.
 
 ## Settings
@@ -32,6 +33,7 @@ Install the [Style Settings](https://github.com/mgmeyers/obsidian-style-settings
 | Emblem under the note title: reindeer, holly or none | Reindeer |
 | Festive emojis on headings (🎄 H1, ⭐ H2, 🎁 H3) | Off |
 | Disable heading and divider ornaments | Off |
+| Disable golden frames | Off |
 | Playful Christmas font for titles | Off |
 | Gold, cranberry and holly colors | Theme palette |
 

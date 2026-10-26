@@ -71,6 +71,10 @@ settings:
 -   id: mc-no-ornaments
     title: Disable heading and divider ornaments
     type: class-toggle
+-   id: mc-no-frames
+    title: Disable golden frames
+    description: The double gold line with star corners around sidebar panels and dialogs.
+    type: class-toggle
 -   id: mc-h-typography
     title: Typography
     type: heading
@@ -137,6 +141,7 @@ settings:
   --mc-emblem-reno: @@SVG:reno-emblema-nariz:#C0394B@@, @@SVG:reno-emblema:#D9B46C@@;
   --mc-emblem-acebo: @@SVG:acebo-bayas:#C0394B@@, @@SVG:acebo:#6FA57E@@;
   --mc-star: @@SVG:estrella:#D9B46C@@;
+  --mc-frame: @@SVG:marco:#D9B46C@@;
   --color-base-00: #14211B;
   --color-base-05: #111D18;
   --color-base-10: #172720;
@@ -170,6 +175,7 @@ settings:
   --mc-emblem-reno: @@SVG:reno-emblema-nariz:#A3233A@@, @@SVG:reno-emblema:#846020@@;
   --mc-emblem-acebo: @@SVG:acebo-bayas:#A3233A@@, @@SVG:acebo:#2F6146@@;
   --mc-star: @@SVG:estrella:#846020@@;
+  --mc-frame: @@SVG:marco:#846020@@;
   --color-base-00: #FBF6EC;
   --color-base-05: #F7F0E3;
   --color-base-10: #F4ECDD;
@@ -533,6 +539,49 @@ body:not(.mc-folder-native) .nav-folder-title:hover > .collapse-icon {
 
 .mod-root .workspace-tab-header.is-active .workspace-tab-header-inner {
   box-shadow: inset 0 2px 0 var(--mc-berry);
+}
+
+/* golden frames: each sidebar tab group becomes a framed card, and dialogs get the same frame
+   (nine-slice SVG: double gold line, a small star in each corner) */
+body:not(.mc-no-frames) .workspace-split.mod-sidedock .workspace-tabs {
+  position: relative;
+  width: auto;
+  margin: 6px;
+}
+
+body:not(.mc-no-frames) .workspace-split.mod-sidedock .workspace-tabs::after,
+body:not(.mc-no-frames) .modal::after,
+body:not(.mc-no-frames) .prompt::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+  border: 32px solid transparent;
+  border-image: var(--mc-frame) 32 stretch;
+}
+
+/* the group under the window buttons (frameless title bar): frame starts below its tab header */
+body:not(.mc-no-frames) .workspace-split.mod-sidedock .workspace-tabs.mod-top-right-space::after {
+  top: var(--header-height);
+}
+
+body:not(.mc-no-frames) .workspace-split.mod-sidedock .workspace-tab-header-container {
+  padding-inline: 10px;
+  padding-top: 4px;
+  border-bottom: none;
+}
+
+body:not(.mc-no-frames) .workspace-split.mod-sidedock .workspace-tab-container {
+  padding: 0 8px 8px;
+}
+
+body:not(.mc-no-frames) .workspace-split.mod-sidedock .workspace-leaf-content {
+  box-shadow: none;
+}
+
+body:not(.mc-no-frames) :is(.modal, .prompt) {
+  border-color: transparent;
 }
 
 .workspace-leaf-content[data-type="empty"] .empty-state-container::before {
