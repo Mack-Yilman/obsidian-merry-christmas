@@ -324,19 +324,6 @@ body.mc-title-festive {
   border-radius: 1px;
 }
 
-.markdown-rendered del,
-.markdown-source-view .cm-strikethrough {
-  text-decoration-color: color-mix(in srgb, var(--mc-berry) 80%, transparent);
-}
-
-.markdown-rendered a,
-.markdown-source-view .cm-hmd-internal-link .cm-underline,
-.markdown-source-view .cm-link .cm-underline,
-.markdown-source-view .cm-url .cm-underline {
-  text-decoration-color: color-mix(in srgb, currentcolor 40%, transparent);
-  text-underline-offset: 0.22em;
-}
-
 .view-header-title,
 .workspace-tab-header-inner-title,
 .callout-title-inner,
